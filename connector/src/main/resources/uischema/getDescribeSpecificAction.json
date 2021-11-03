@@ -16,7 +16,7 @@
               "displayName": "Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
-                "oAuth2"
+                "oAuth2","oAuthPassword"
               ],
               "defaultValue": "",
               "required": "true",
