@@ -2,7 +2,7 @@
   "connectorName": "salesforce",
   "operationName": "queryAll",
   "title": "Query All",
-  "help": "<h1>Executes Query</h1> <b>Retrieves data from specified objects, whether or not they have been deleted.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/salesforce-connector/sf-connector-config/\"> More Help </a></li></ul>",
+  "help": "<h1>Query All</h1> <b>Retrieves data from an object even if it is deleted.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/salesforce-rest-connector/sf-rest-connector-config/\"> More Help </a></li></ul>",
   "elements": [
     {
       "type": "attributeGroup",
@@ -16,7 +16,7 @@
               "displayName": "Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
-                "init"
+                "oAuth2"
               ],
               "defaultValue": "",
               "required": "true",
@@ -31,23 +31,12 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "batchSize",
-                    "displayName": "Batch Size",
-                    "inputType": "integerOrExpression",
-                    "defaultValue": "",
-                    "required": "true",
-                    "helpTip": "The number of records to return."
-                  }
-                },
-                {
-                  "type": "attribute",
-                  "value": {
                     "name": "queryString",
                     "displayName": "Query String",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The queryString to get the results from API."
+                    "helpTip": "The SOQL query to execute the search"
                   }
                 }
               ]

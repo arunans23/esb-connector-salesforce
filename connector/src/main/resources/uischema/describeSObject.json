@@ -1,8 +1,8 @@
 {
   "connectorName": "salesforce",
   "operationName": "describeSObject",
-  "title": "Describe SObject",
-  "help": "<h1>Describe SObject</h1> <b>Describes metadata (field list and object properties) for the specified object.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/salesforce-connector/sf-connector-config/\"> More Help </a></li></ul>",
+  "title": "Describe sObject",
+  "help": "<h1>sObject Action</h1> <b>Retrieves metadata (such as name, label, and fields, including the field properties) for a specific object type, completely describing the individual metadata at all levels for the specified object.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/salesforce-rest-connector/sf-rest-connector-config/\"> More Help </a></li></ul>",
   "elements": [
     {
       "type": "attributeGroup",
@@ -16,7 +16,7 @@
               "displayName": "Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
-                "init"
+                "oAuth2"
               ],
               "defaultValue": "",
               "required": "true",
@@ -31,12 +31,12 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "sobject",
-                    "displayName": "sObject",
+                    "name": "sObjectName",
+                    "displayName": "sObject Name",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The sobject type"
+                    "helpTip": "The type of sObject"
                   }
                 }
               ]

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+<template name="init" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="accessToken"
+               description="Value of the Access Token to access the api via request"/>
+    <parameter name="apiVersion" description="Access token of the organizational account."/>
+    <parameter name="hostName" description="Value of the hostname to authenticate salesforce."/>
+    <parameter name="refreshToken" description="value of the refresh token."/>
+    <parameter name="clientSecret"
+               description="Value of your secret key given when you registered your application with salesforce."/>
+    <parameter name="clientId"
+               description="Value of your API Key given when you registered your application with salesforce."/>
+    <parameter name="apiUrl" description="The instance URL for your organization"/>
+    <parameter name="timeout" description="Timeout duration of the API request."/>
+    <parameter name="name" description="Name of the connection"/>
+    <parameter name="username" description="The username for the salesforce."/>
+    <parameter name="password"
+               description="The password is the combinations of the user password and the security token for salesforce"/>
+    <parameter name="blocking" description="Set to true to perform the blocking invocations to Salesforce."/>
+    <parameter name="tokenEndpointHostname" description="Instance url for OAuth 2.0 token endpoint when issuing authentication requests in your application."/>
+    <parameter name="loginUrl" description="The login URL to get the user access"/>
+    <parameter name="forceLogin" description="The forceLogin parameter"/>
+    <parameter name="connectionType" description="The Authentication method that should be used to access SalesForce API"/>
+    <sequence>
+        <filter xpath="$func:connectionType = 'basicAuth'">
+            <then>
+                <class name="org.wso2.carbon.connector.salesforce.SetupLoginParams"/>
+                <filter xpath="get-property('operation','salesforce.login.done') = 'true'">
+                    <then>
+                        <property name="Connection" value="Already login to Salesforce ....."/>
+                    </then>
+                    <else>
+                        <enrich>
+                            <source clone="true" type="body"/>
+                            <target property="ORIGINAL_MSG_PAYLOAD" type="property"/>
+                        </enrich>
+                        <property expression="$func:loginUrl" name="uri.var.salesforce.url"/>
+                        <header name="Action" value="urn:partner.soap.sforce.com/Soap/loginRequest"/>
+                        <payloadFactory>
+                            <format>
+                                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                                                  xmlns:urn="urn:partner.soap.sforce.com">
+                                    <soapenv:Body>
+                                        <urn:login>
+                                            <urn:username>$1</urn:username>
+                                            <urn:password>$2</urn:password>
+                                        </urn:login>
+                                    </soapenv:Body>
+                                </soapenv:Envelope>
+                            </format>
+                            <args>
+                                <arg expression="$func:username"/>
+                                <arg expression="$func:password"/>
+                            </args>
+                        </payloadFactory>
+                        <log level="custom">
+                            <property name="Connection" value="Login to Salesforce ....."/>
+                        </log>
+                        <property name="FORCE_ERROR_ON_SOAP_FAULT" value="true"/>
+                        <property name="messageType" scope="axis2" value="text/xml"/>
+                        <!-- <call> <endpoint> <http method="POST" uri-template="{uri.var.salesforce.url}">
+                            <timeout> <duration>60000</duration> <responseAction>fault</responseAction>
+                            </timeout> <suspendOnFailure> <initialDuration>2000</initialDuration> <progressionFactor>1.0</progressionFactor>
+                            <maximumDuration>3000</maximumDuration> </suspendOnFailure> </http> </endpoint>
+                            </call> -->
+                        <property name="SALESFORCE_BLOCKING" expression="$func:blocking"/>
+                        <property value="true" name="FORCE_ERROR_ON_SOAP_FAULT"/>
+                        <property name="HTTP_METHOD" scope="axis2" value="POST"/>
+                        <property name="Accept-Encoding" scope="transport" action="remove"/>
+                        <header name="To" expression="$ctx:uri.var.salesforce.url"/>
+                        <header name="Content-Encoding" action="remove" scope="transport"/>
+                        <filter source="$ctx:SALESFORCE_BLOCKING" regex="true">
+                            <then>
+                                <call blocking="true">
+                                    <endpoint>
+                                        <default format="soap11">
+                                            <timeout>
+                                                <duration>60000</duration>
+                                                <responseAction>fault</responseAction>
+                                            </timeout>
+                                            <suspendOnFailure>
+                                                <initialDuration>2000</initialDuration>
+                                                <progressionFactor>1.0</progressionFactor>
+                                                <maximumDuration>3000</maximumDuration>
+                                            </suspendOnFailure>
+                                        </default>
+                                    </endpoint>
+                                </call>
+                            </then>
+                            <else>
+                                <call>
+                                    <endpoint>
+                                        <default format="soap11">
+                                            <timeout>
+                                                <duration>60000</duration>
+                                                <responseAction>fault</responseAction>
+                                            </timeout>
+                                            <suspendOnFailure>
+                                                <initialDuration>2000</initialDuration>
+                                                <progressionFactor>1.0</progressionFactor>
+                                                <maximumDuration>3000</maximumDuration>
+                                            </suspendOnFailure>
+                                        </default>
+                                    </endpoint>
+                                </call>
+                            </else>
+                        </filter>
+                        <property name="FORCE_ERROR_ON_SOAP_FAULT" value="false"/>
+                        <property expression="//ns:loginResponse/ns:result/ns:sessionId/text()"
+                                  name="salesforce.sessionId" scope="operation" type="STRING"
+                                  xmlns:ns="urn:partner.soap.sforce.com"/>
+                        <property expression="//ns:loginResponse/ns:result/ns:serverUrl/text()"
+                                  name="salesforce.serviceUrl" scope="operation" type="STRING"
+                                  xmlns:ns="urn:partner.soap.sforce.com"/>
+                        <property name="salesforce.login.done" scope="operation"
+                                  type="STRING" value="true"/>
+                        <enrich>
+                            <source clone="true" type="body"/>
+                            <target property="SALESFORCE_LOGIN_RESPONSE" type="property"/>
+                        </enrich>
+                        <enrich>
+                            <source clone="true" property="ORIGINAL_MSG_PAYLOAD" type="property"/>
+                            <target type="body"/>
+                        </enrich>
+                    </else>
+                </filter>
+            </then>
+            <else>
+                <!--todo: remove uri.var-->
+                <property name="uri.var.accessToken" expression="$func:accessToken"/>
+                <property name="uri.var.apiVersion" expression="$func:apiVersion"/>
+                <property name="uri.var.hostName" expression="$func:hostName"/>
+                <property name="uri.var.refreshToken" expression="$func:refreshToken"/>
+                <property name="uri.var.clientSecret" expression="$func:clientSecret"/>
+                <property name="uri.var.clientId" expression="$func:clientId"/>
+                <property name="uri.var.apiUrl" expression="$func:apiUrl"/>
+                <property name="uri.var.accessTokenRegistryPath" expression="fn:concat('connectors/salesforcerest/accessToken',$func:name)"/>
+                <property name="uri.var.intervalTime" expression="$func:intervalTime"/>
+                <property name="uri.var.username" expression="$func:username"/>
+                <property name="uri.var.password" expression="$func:password"/>
+                <property name="uri.var.tokenEndpointHostname" expression="$func:tokenEndpointHostname"/>
+                <property name="timeout" expression="$func:timeout"/>
+                <property name="salesforceRestBlocking" expression="$func:blocking"/>
+                <filter source="boolean($ctx:uri.var.tokenEndpointHostname)" regex="false">
+                    <then>
+                        <property name="uri.var.tokenEndpointHostname" value="https://login.salesforce.com"/>
+                    </then>
+                </filter>
+                <property name="uri.var.tokenEndpointUrl"
+                          expression="fn:concat(get-property('uri.var.tokenEndpointHostname'),'/services/oauth2/token')"/>
+                <script language="js">
+                    <![CDATA[
+                var timeout = mc.getProperty("uri.var.timeout");
+                if (timeout == null || timeout == "") {
+                    timeout = 3000;
+                }
+                mc.setProperty("timeout", timeout.toString());
+            ]]>
+                </script>
+                <filter source="boolean($ctx:uri.var.username) and boolean($ctx:uri.var.password) and boolean($ctx:uri.var.clientSecret) and boolean($ctx:uri.var.clientId)"
+                        regex="true">
+                    <then>
+                        <enrich>
+                            <source clone="true" type="body"/>
+                            <target property="ORIGINAL_MSG_PAYLOAD" type="property"/>
+                        </enrich>
+                        <property name="Accept-Encoding" scope="transport" action="remove"/>
+                        <property name="NO_ENTITY_BODY" value="true" type="BOOLEAN" scope="axis2"/>
+                        <payloadFactory media-type="json">
+                            <format></format>
+                            <args></args>
+                        </payloadFactory>
+                        <property name="FORCE_POST_PUT_NOBODY" value="true" scope="axis2" type="BOOLEAN"/>
+                        <filter source="$ctx:salesforceRestBlocking" regex="true">
+                            <then>
+                                <call blocking="true">
+                                    <endpoint>
+                                        <http method="post"
+                                              uri-template="{uri.var.hostName}/services/oauth2/token?grant_type=password&amp;client_id={uri.var.clientId}&amp;client_secret={uri.var.clientSecret}&amp;username={uri.var.username}&amp;password={uri.var.password}">
+                                            <timeout>
+                                                <duration>{$ctx:timeout}</duration>
+                                                <responseAction>fault</responseAction>
+                                            </timeout>
+                                            <suspendOnFailure>
+                                                <errorCodes>-1</errorCodes>
+                                                <progressionFactor>1.0</progressionFactor>
+                                            </suspendOnFailure>
+                                            <markForSuspension>
+                                                <errorCodes>-1</errorCodes>
+                                            </markForSuspension>
+                                        </http>
+                                    </endpoint>
+                                </call>
+                            </then>
+                            <else>
+                                <call>
+                                    <endpoint>
+                                        <http method="post"
+                                              uri-template="{uri.var.hostName}/services/oauth2/token?grant_type=password&amp;client_id={uri.var.clientId}&amp;client_secret={uri.var.clientSecret}&amp;username={uri.var.username}&amp;password={uri.var.password}">
+                                            <timeout>
+                                                <duration>{$ctx:timeout}</duration>
+                                                <responseAction>fault</responseAction>
+                                            </timeout>
+                                            <suspendOnFailure>
+                                                <errorCodes>-1</errorCodes>
+                                                <progressionFactor>1.0</progressionFactor>
+                                            </suspendOnFailure>
+                                            <markForSuspension>
+                                                <errorCodes>-1</errorCodes>
+                                            </markForSuspension>
+                                        </http>
+                                    </endpoint>
+                                </call>
+                            </else>
+                        </filter>
+                        <property name="uri.var.accessToken" expression="json-eval($.access_token)"/>
+                        <enrich>
+                            <source clone="true" property="ORIGINAL_MSG_PAYLOAD" type="property"/>
+                            <target type="body"/>
+                        </enrich>
+                    </then>
+                </filter>
+            </else>
+        </filter>
+    </sequence>
+</template>

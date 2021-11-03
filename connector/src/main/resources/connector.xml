@@ -18,7 +18,22 @@
 -->
 <connector>
     <component name="salesforce" package="org.wso2.carbon.connector">
-        <dependency component="salesforce"/>
+        <dependency component="salesforcesoap"/>
+        <dependency component="salesforcerest-config"/>
+        <dependency component="salesforcerest-objects"/>
+        <dependency component="salesforcerest-records"/>
+        <dependency component="salesforcerest-users"/>
+        <dependency component="salesforcerest-approvals"/>
+        <dependency component="salesforcerest-listview"/>
+        <dependency component="salesforcerest-query"/>
+        <dependency component="salesforcerest-quickaction"/>
+        <dependency component="salesforcerest-search"/>
+        <dependency component="salesforcerest-layouts"/>
+        <dependency component="salesforcerest-appmenu"/>
+        <dependency component="salesforcerest-action"/>
+        <dependency component="salesforcerest-processrules"/>
+        <dependency component="salesforcerest-attachment"/>
+        <dependency component="salesforcerest-eventMonitoring"/>
         <description>synapse library for Salesforce connector</description>
     </component>
     <icon>icon/icon.png</icon>

@@ -1,8 +1,8 @@
 {
   "connectorName": "salesforce",
   "operationName": "delete",
-  "title": "Delete Records",
-  "help": "<h1>Delete Records</h1> <b>Deletes one or more records from your organization’s data.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/salesforce-connector/sf-connector-config/\"> More Help </a></li></ul>",
+  "title": "Delete",
+  "help": "<h1>Delete</h1> <b>To retrieve specific field values for a specific sObject.</b><br><br><ul><li><a href=\"https://ei.docs.wso2.com/en/latest/micro-integrator/references/connectors/salesforce-rest-connector/sf-rest-connector-config/\"> More Help </a></li></ul>",
   "elements": [
     {
       "type": "attributeGroup",
@@ -16,7 +16,7 @@
               "displayName": "Connection",
               "inputType": "connection",
               "allowedConnectionTypes": [
-                "init"
+                "oAuth2"
               ],
               "defaultValue": "",
               "required": "true",
@@ -31,23 +31,23 @@
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "allOrNone",
-                    "displayName": "All or None",
-                    "inputType": "integerOrExpression",
+                    "name": "sObjectName",
+                    "displayName": "sObject Name",
+                    "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "Whether to rollback changes if an object fails(Default value is 0)."
+                    "helpTip": "The object type whose metadata you want to retrieve."
                   }
                 },
                 {
                   "type": "attribute",
                   "value": {
-                    "name": "sobjects",
-                    "displayName": "sObjects",
+                    "name": "idToDelete",
+                    "displayName": "ID To Delete",
                     "inputType": "stringOrExpression",
                     "defaultValue": "",
                     "required": "true",
-                    "helpTip": "The sobject type"
+                    "helpTip": "The Id of the object will be going to delete."
                   }
                 }
               ]
