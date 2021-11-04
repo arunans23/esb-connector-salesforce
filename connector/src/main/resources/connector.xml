@@ -34,6 +34,10 @@
         <dependency component="salesforcerest-processrules"/>
         <dependency component="salesforcerest-attachment"/>
         <dependency component="salesforcerest-eventMonitoring"/>
+        <dependency component="salesforceBulk-config"/>
+        <dependency component="salesforceBulk-jobs"/>
+        <dependency component="salesforceBulk-batches"/>
+        <dependency component="salesforceBulk-binaryAttachments"/>
         <description>synapse library for Salesforce connector</description>
     </component>
     <icon>icon/icon.png</icon>
