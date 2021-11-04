@@ -296,8 +296,8 @@ public class SalesforceConnectorIntegrationTest extends ConnectorIntegrationTest
      */
     @Test(enabled = true, priority = 1, groups = {"wso2.esb"}, dependsOnMethods = {"testGetUserInfoWithMandatoryParameters"}, description = "Salesforce {getDeleted} integration test with mandatory parameters.")
     public void testGetDeletedWithMandatoryParameters() throws Exception {
-        connectorProperties.put("startDate", "2020-07-15T05:05:53+0000"); //Change startDate and endDate to a value within the last 30 days
-        connectorProperties.put("endDate", "2020-07-22T05:05:53+0000");
+        connectorProperties.put("startDate", "2021-10-15T05:05:53+0000"); //Change startDate and endDate to a value within the last 30 days
+        connectorProperties.put("endDate", "2021-10-22T05:05:53+0000");
         String esbSoapResponse = sendSOAPRequestWithApacheHTTPClient(proxyUrl, "esbGetDeletedMandatory.xml", null, "mediate");
         OMElement esbResponseElement = AXIOMUtil.stringToOM(esbSoapResponse);
         Assert.assertTrue(esbResponseElement.toString().contains("getDeletedResponse"));
@@ -309,8 +309,8 @@ public class SalesforceConnectorIntegrationTest extends ConnectorIntegrationTest
      */
     @Test(enabled = true, priority = 1, groups = {"wso2.esb"}, dependsOnMethods = {"testGetUserInfoWithMandatoryParameters"}, description = "Salesforce {getDeleted} integration test with mandatory parameters.")
     public void testGetUpdatedWithMandatoryParameters() throws Exception {
-        connectorProperties.put("startDate", "2020-07-15T05:05:53+0000"); //Change startDate and endDate to a value within the last 30 days
-        connectorProperties.put("endDate", "2020-07-22T05:05:53+0000");
+        connectorProperties.put("startDate", "2021-10-15T05:05:53+0000"); //Change startDate and endDate to a value within the last 30 days
+        connectorProperties.put("endDate", "2021-10-22T05:05:53+0000");
         String esbSoapResponse = sendSOAPRequestWithApacheHTTPClient(proxyUrl, "esbGetUpdatedMandatory.xml", null, "mediate");
         OMElement esbResponseElement = AXIOMUtil.stringToOM(esbSoapResponse);
         Assert.assertTrue(esbResponseElement.toString().contains("getUpdatedResponse"));

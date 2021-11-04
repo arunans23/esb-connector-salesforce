@@ -137,23 +137,24 @@
                 <username>{$ctx:username}</username>
                 <password>{$ctx:password}</password>
                 <blocking>{$ctx:blocking}</blocking>
+                <connectionType>basicAuth</connectionType>
             </salesforce.init>
             <switch source="get-property('method')">
                 <case regex="getUserInfo">
-                    <salesforce.getUserInfo/>
+                    <salesforce.getUserInfo-soap/>
                 </case>
                 <case regex="describeSObject">
-                    <salesforce.describeSObject>
+                    <salesforce.describeSObject-soap>
                         <sobject>{$ctx:sobject}</sobject>
-                    </salesforce.describeSObject>
+                    </salesforce.describeSObject-soap>
                 </case>
                 <case regex="describeGlobal">
-                    <salesforce.describeGlobal/>
+                    <salesforce.describeGlobal-soap/>
                 </case>
                 <case regex="search">
-                    <salesforce.search>
+                    <salesforce.search-soap>
                         <searchString>{$ctx:searchString}</searchString>
-                    </salesforce.search>
+                    </salesforce.search-soap>
                 </case>
                 <case regex="create">
                     <payloadFactory media-type="xml">
@@ -168,11 +169,11 @@
                             <arg expression="get-property('name')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.create>
+                    <salesforce.create-soap>
                         <allOrNone>{$ctx:allOrNone}</allOrNone>
                         <allowFieldTruncate>{$ctx:allowFieldTruncate}</allowFieldTruncate>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.create>
+                    </salesforce.create-soap>
                 </case>
                 <case regex="delete">
                     <payloadFactory>
@@ -185,27 +186,27 @@
                             <arg expression="get-property('id')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.delete>
+                    <salesforce.delete-soap>
                         <allOrNone>{$ctx:allOrNone}</allOrNone>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.delete>
+                    </salesforce.delete-soap>
                 </case>
                 <case regex="getDeleted">
-                    <salesforce.getDeleted>
+                    <salesforce.getDeleted-soap>
                         <sObjectType>{$ctx:type1}</sObjectType>
                         <startDate>{$ctx:startDate}</startDate>
                         <endDate>{$ctx:endDate}</endDate>
-                    </salesforce.getDeleted>
+                    </salesforce.getDeleted-soap>
                 </case>
                 <case regex="getUpdated">
-                    <salesforce.getUpdated>
+                    <salesforce.getUpdated-soap>
                         <sObjectType>{$ctx:type1}</sObjectType>
                         <startDate>{$ctx:startDate}</startDate>
                         <endDate>{$ctx:endDate}</endDate>
-                    </salesforce.getUpdated>
+                    </salesforce.getUpdated-soap>
                 </case>
                 <case regex="getServerTimestamp">
-                    <salesforce.getServerTimestamp/>
+                    <salesforce.getServerTimestamp-soap/>
                 </case>
                 <case regex="findDuplicates">
                     <payloadFactory>
@@ -218,9 +219,9 @@
                         </format>
                         <args/>
                     </payloadFactory>
-                    <salesforce.findDuplicates>
+                    <salesforce.findDuplicates-soap>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.findDuplicates>
+                    </salesforce.findDuplicates-soap>
                 </case>
                 <case regex="findDuplicatesByIds">
                     <payloadFactory>
@@ -231,9 +232,9 @@
                         </format>
                         <args/>
                     </payloadFactory>
-                    <salesforce.findDuplicatesByIds>
+                    <salesforce.findDuplicatesByIds-soap>
                         <ids xmlns:sfdc="sfdc">{//sfdc:ids}</ids>
-                    </salesforce.findDuplicatesByIds>
+                    </salesforce.findDuplicatesByIds-soap>
                 </case>
                 <case regex="merge">
                     <payloadFactory>
@@ -253,9 +254,9 @@
                             <arg expression="get-property('idForMerge2')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.merge>
+                    <salesforce.merge-soap>
                         <mergerequests xmlns:sfdc="sfdc">{//sfdc:requests}</mergerequests>
-                    </salesforce.merge>
+                    </salesforce.merge-soap>
                 </case>
                 <case regex="createLead">
                     <payloadFactory media-type="xml">
@@ -270,11 +271,11 @@
                         </format>
                         <args/>
                     </payloadFactory>
-                    <salesforce.create>
+                    <salesforce.create-soap>
                         <allOrNone>{$ctx:allOrNone}</allOrNone>
                         <allowFieldTruncate>{$ctx:allowFieldTruncate}</allowFieldTruncate>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.create>
+                    </salesforce.create-soap>
                 </case>
                 <case regex="convertLead">
                     <payloadFactory>
@@ -292,9 +293,9 @@
                             <arg expression="get-property('idForConvert2')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.convertLead>
+                    <salesforce.convertLead-soap>
                         <leadconvertrequests xmlns:sfdc="sfdc">{//sfdc:leadconvertrequests}</leadconvertrequests>
-                    </salesforce.convertLead>
+                    </salesforce.convertLead-soap>
                 </case>
                 <case regex="update">
                     <payloadFactory>
@@ -311,11 +312,11 @@
                             <arg expression="get-property('newName')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.update>
+                    <salesforce.update-soap>
                         <allOrNone>{$ctx:allOrNone}</allOrNone>
                         <allowFieldTruncate>{$ctx:allowFieldTruncate}</allowFieldTruncate>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.update>
+                    </salesforce.update-soap>
                 </case>
                 <case regex="undelete">
                     <payloadFactory>
@@ -328,10 +329,10 @@
                             <arg expression="get-property('id')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.undelete>
+                    <salesforce.undelete-soap>
                         <allOrNone>{$ctx:allOrNone}</allOrNone>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.undelete>
+                    </salesforce.undelete-soap>
                 </case>
                 <case regex="describeSObjects">
                     <payloadFactory>
@@ -346,15 +347,15 @@
                             <arg expression="get-property('type2')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.describeSObjects>
+                    <salesforce.describeSObjects-soap>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.describeSObjects>
+                    </salesforce.describeSObjects-soap>
                 </case>
                 <case regex="query">
-                    <salesforce.query>
+                    <salesforce.query-soap>
                         <batchSize>{$ctx:batchSize}</batchSize>
                         <queryString>{$ctx:queryString}</queryString>
-                    </salesforce.query>
+                    </salesforce.query-soap>
                 </case>
                 <case regex="retrieve">
                     <payloadFactory>
@@ -367,11 +368,11 @@
                             <arg expression="get-property('id')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.retrieve>
+                    <salesforce.retrieve-soap>
                         <fieldList>{$ctx:fieldList}</fieldList>
                         <objectType>{$ctx:objectType}</objectType>
                         <objectIDS xmlns:sfdc="sfdc">{//sfdc:sObjects}</objectIDS>
-                    </salesforce.retrieve>
+                    </salesforce.retrieve-soap>
                 </case>
                 <case regex="sendEmail">
                     <payloadFactory>
@@ -402,9 +403,9 @@
                             <arg expression="get-property('plainTextBody')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.sendEmail>
+                    <salesforce.sendEmail-soap>
                         <sendEmail xmlns:sfdc="sfdc">{//sfdc:emailWrapper}</sendEmail>
-                    </salesforce.sendEmail>
+                    </salesforce.sendEmail-soap>
                 </case>
                 <case regex="createContact">
                     <payloadFactory media-type="xml">
@@ -421,14 +422,14 @@
                             <arg expression="get-property('email')"/>
                         </args>
                     </payloadFactory>
-                    <salesforce.create>
+                    <salesforce.create-soap>
                         <allOrNone>{$ctx:allOrNone}</allOrNone>
                         <allowFieldTruncate>{$ctx:allowFieldTruncate}</allowFieldTruncate>
                         <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-                    </salesforce.create>
+                    </salesforce.create-soap>
                 </case>
                 <case regex="logout">
-                    <salesforce.logout/>
+                    <salesforce.logout-soap/>
                 </case>
             </switch>
             <respond/>

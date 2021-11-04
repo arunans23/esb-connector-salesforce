@@ -28,6 +28,7 @@
     <test name="salesforce-Connector-Test" preserve-order="true" verbose="2">
         <classes>
             <class name="org.wso2.carbon.connector.integration.test.salesforce.SalesforceConnectorIntegrationTest"/>
+            <class name="org.wso2.carbon.connector.integration.test.salesforce.SalesforceRestConnectorIntegrationTest"/>
         </classes>
     </test>
 </suite>
