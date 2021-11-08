@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<getJob>
+   <apiVersion>%s(apiVersionBulk)</apiVersion>
+   <accessToken>%s(accessToken)</accessToken>
+   <apiUrl>%s(apiUrl)</apiUrl>
+   <refreshToken>%s(refreshToken)</refreshToken>
+   <clientId>%s(clientId)</clientId>
+   <clientSecret>%s(clientSecret)</clientSecret>
+   <intervalTime>%s(intervalTime)</intervalTime>
+   <registryPath>%s(registryPath)</registryPath>
+   <jobId>INVALID</jobId>
+</getJob>

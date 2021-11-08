@@ -24,6 +24,6 @@
         <property name="Content-Type" value="Content-Type: application/xml; charset=UTF-8" scope="transport"/>
         <property name="uri.var.callEndpointUri" expression="fn:concat($ctx:uri.var.apiUrl,'/services/async/',$ctx:uri.var.apiVersion,'/job/',$func:jobId)"/>
         <property name="httpMethod" value="get"/>
-        <salesforce.callWithRetry-bulk-bulk/>
+        <salesforce.callWithRetry-bulk/>
     </sequence>
 </template>

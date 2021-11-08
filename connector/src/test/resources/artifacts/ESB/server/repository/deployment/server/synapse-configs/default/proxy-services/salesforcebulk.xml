@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~  WSO2 Inc. licenses this file to you under the Apache License,
+ ~  Version 2.0 (the "License"); you may not use this file except
+ ~  in compliance with the License.
+ ~  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~  Unless required by applicable law or agreed to in writing,
+ ~  software distributed under the License is distributed on an
+ ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~  KIND, either express or implied.  See the License for the
+ ~  specific language governing permissions and limitations
+ ~  under the License.
+-->
+<proxy xmlns="http://ws.apache.org/ns/synapse" name="salesforcebulk" transports="https,http" statistics="disable"
+       trace="disable" startOnLoad="true">
+    <target>
+        <inSequence>
+            <property name="apiUrl" expression="//apiUrl/text()"/>
+            <property name="apiVersion" expression="//apiVersion/text()"/>
+            <property name="accessToken" expression="//accessToken/text()"/>
+            <property name="refreshToken" expression="//refreshToken/text()"/>
+            <property name="clientId" expression="//clientId/text()"/>
+            <property name="clientSecret" expression="//clientSecret/text()"/>
+            <property name="operation" expression="//operation/text()"/>
+            <property name="contentType" expression="//contentType/text()"/>
+            <property name="object" expression="//object/text()"/>
+            <property name="objects" expression="//objects"/>
+            <property name="jobId" expression="//jobId/text()"/>
+            <property name="state" expression="//state/text()"/>
+            <property name="batchId" expression="//batchId/text()"/>
+            <property name="transportAction" expression="$trp:Action"/>
+
+            <filter xpath="(get-property('transportAction')='urn:createJobToUploadBatchFile') or (get-property('transportAction')='urn:uploadBatchFile')">
+                <then>
+                    <salesforce.init>
+                        <apiVersion>{$url:apiVersion}</apiVersion>
+                        <accessToken>{$url:accessToken}</accessToken>
+                        <apiUrl>{$url:apiUrl}</apiUrl>
+                        <refreshToken>{$url:refreshToken}</refreshToken>
+                        <clientId>{$url:clientId}</clientId>
+                        <clientSecret>{$url:clientSecret}</clientSecret>
+                        <intervalTime>{$url:intervalTime}</intervalTime>
+                        <registryPath>{$url:registryPath}</registryPath>
+                        <connectionType>oAuth2</connectionType>
+                    </salesforce.init>
+                </then>
+                <else>
+                    <salesforce.init>
+                        <apiVersion>{$ctx:apiVersion}</apiVersion>
+                        <accessToken>{$ctx:accessToken}</accessToken>
+                        <apiUrl>{$ctx:apiUrl}</apiUrl>
+                        <refreshToken>{$ctx:refreshToken}</refreshToken>
+                        <clientId>{$ctx:clientId}</clientId>
+                        <clientSecret>{$ctx:clientSecret}</clientSecret>
+                        <intervalTime>{$ctx:intervalTime}</intervalTime>
+                        <registryPath>{$ctx:registryPath}</registryPath>
+                        <connectionType>oAuth2</connectionType>
+                    </salesforce.init>
+                </else>
+            </filter>
+            <switch source="get-property('transportAction')">
+                <case regex="urn:createJob">
+                    <salesforce.createJob-bulk>
+                        <operation>{$ctx:operation}</operation>
+                        <contentType>{$ctx:contentType}</contentType>
+                        <object>{$ctx:object}</object>
+                    </salesforce.createJob-bulk>
+                </case>
+                <case regex="urn:getJob">
+                    <salesforce.getJob-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                    </salesforce.getJob-bulk>
+                </case>
+                <case regex="urn:updateJob">
+                    <salesforce.updateJob-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                        <state>{$ctx:state}</state>
+                    </salesforce.updateJob-bulk>
+                </case>
+                <case regex="urn:addBatch">
+                    <salesforce.addBatch-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                        <objects>{$ctx:objects}</objects>
+                    </salesforce.addBatch-bulk>
+                </case>
+                <case regex="urn:getBatchStatus">
+                    <salesforce.getBatchStatus-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                        <batchId>{$ctx:batchId}</batchId>
+                    </salesforce.getBatchStatus-bulk>
+                </case>
+                <case regex="urn:getBatchResults">
+                    <salesforce.getBatchResults-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                        <batchId>{$ctx:batchId}</batchId>
+                    </salesforce.getBatchResults-bulk>
+                </case>
+                <case regex="urn:getBatchRequest">
+                    <salesforce.getBatchRequest-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                        <batchId>{$ctx:batchId}</batchId>
+                    </salesforce.getBatchRequest-bulk>
+                </case>
+                <case regex="urn:listBatches">
+                    <salesforce.listBatches-bulk>
+                        <jobId>{$ctx:jobId}</jobId>
+                    </salesforce.listBatches-bulk>
+                </case>
+                <case regex="urn:createJobToUploadBatchFile">
+                    <salesforce.createJobToUploadBatchFile-bulk>
+                    </salesforce.createJobToUploadBatchFile-bulk>
+                </case>
+                <case regex="urn:uploadBatchFile">
+                    <salesforce.uploadBatchFile-bulk>
+                        <jobId>{$url:jobId}</jobId>
+                    </salesforce.uploadBatchFile-bulk>
+                </case>
+            </switch>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <log/>
+            <send/>
+        </outSequence>
+    </target>
+    <description/>
+</proxy>

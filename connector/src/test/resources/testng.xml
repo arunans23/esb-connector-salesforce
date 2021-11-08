@@ -29,6 +29,7 @@
         <classes>
             <class name="org.wso2.carbon.connector.integration.test.salesforce.SalesforceConnectorIntegrationTest"/>
             <class name="org.wso2.carbon.connector.integration.test.salesforce.SalesforceRestConnectorIntegrationTest"/>
+            <class name="org.wso2.carbon.connector.integration.test.salesforce.SalesforceBulkConnectorIntegrationTest"/>
         </classes>
     </test>
 </suite>
