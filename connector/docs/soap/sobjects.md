@@ -99,13 +99,13 @@ Given below is a sample response for the describeGlobal operation.
 
 #### Retrieving metadata for a specific object type
 
-To retrieve metadata (such as name, label, and fields, including the field properties) for a specific object type, use salesforce.describeSobject and specify the following properties. 
+To retrieve metadata (such as name, label, and fields, including the field properties) for a specific object type, use salesforce.describeSObject-soap and specify the following properties. 
 
 ###### describeSobject
 ```xml
-<salesforce.describeSObject configKey="MySFConfig">
+<salesforce.describeSObject-soap configKey="MySFConfig">
     <sobject>Account</sobject>
-</salesforce.describeSObject>
+</salesforce.describeSObject-soap>
 ```
 
 ###### Properties
@@ -152,13 +152,13 @@ Given below is a sample response for the describeSObject operation.
 
 #### Retrieving metadata for multiple object types
 
-To retrieve metadata (such as name, label, and fields, including the field properties) for multiple object types returned as an array, use salesforce.describeSobjects and specify the following properties. 
+To retrieve metadata (such as name, label, and fields, including the field properties) for multiple object types returned as an array, use salesforce.describeSObjects-soap and specify the following properties. 
 
 ###### describeSobjects
 ```xml
-<salesforce.describeSobjects configKey="MySFConfig">
+<salesforce.describeSObjects-soap configKey="MySFConfig">
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.describeSobjects>
+</salesforce.describeSObjects-soap>
 ```
 
 ###### Properties
@@ -179,9 +179,9 @@ Given below is a sample request that can be handled by the describeSobjects oper
      <args/>
  </payloadFactory>
  
-<salesforce.describeSobjects configKey="MySFConfig">
+<salesforce.describeSObjects-soap configKey="MySFConfig">
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.describeSobjects>
+</salesforce.describeSObjects-soap>
 ```
 
 ###### Sample response
@@ -267,8 +267,9 @@ Following example illustrates how to connect to Salesforce with the init operati
             <username>{$ctx:username}</username>
             <password>{$ctx:password}</password>
             <blocking>{$ctx:blocking}</blocking>
+            <connectionType>basicAuth</connectionType>
          </salesforce.init>
-         <salesforce.describeGlobal/>
+         <salesforce-soap.describeGlobal/>
          <respond/>
       </inSequence>
       <outSequence>

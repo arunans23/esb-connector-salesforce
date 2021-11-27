@@ -16,11 +16,11 @@ This section provides more information on each of the operations.
 
 #### Retrieving Server Timestamp
 
-To retrieve the timestampt of the server, use salesforce.getServerTimestamp as follows:
+To retrieve the timestampt of the server, use salesforce.getServerTimestamp-soap as follows:
 
 ###### getServerTimestamp
 ```xml
-<salesforce.getServerTimestamp configKey="MySFConfig"/>
+<salesforce.getServerTimestamp-soap configKey="MySFConfig"/>
 ```
 ###### Properties
 
@@ -106,7 +106,7 @@ Following example illustrates how to connect to Salesforce with the init operati
             <password>{$ctx:password}</password>
             <blocking>{$ctx:blocking}</blocking>
          </salesforce.init>
-         <salesforce.getServerTimestamp/>
+         <salesforce.getServerTimestamp-soap/>
          <respond/>
       </inSequence>
       <outSequence>

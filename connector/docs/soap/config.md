@@ -27,6 +27,7 @@ Before you start configuring the connector, import the Salesforce certificate to
     <password>MyPassword</password>
     <loginUrl>https://login.salesforce.com/services/Soap/u/42.0</loginUrl>
     <blocking>false</blocking>
+    <connectionType>basicAuth</connectionType>
 </salesforce.init>
 ```
 ###### Properties
@@ -34,6 +35,7 @@ Before you start configuring the connector, import the Salesforce certificate to
 * password:  The password provided here is a concatenation of the user password and the security token provided by Salesforce.
 * loginUrl:  The login URL to access the Salesforce account.
 * blocking:  Indicates whether the connector needs to perform blocking invocations to Salesforce. (Supported in WSO2 ESB 4.9.0 and later.) 
+* connectionType: Indicates the type of connection that should be established.
 
 ```text
 *  Users can obtain a security token by changing the password or resetting the security token using the Salesforce user interface. The new security token is sent to the email address recorded in the user's Salesforce record.
@@ -57,7 +59,7 @@ The Salesforce connector operation examples use this convention to show how to s
 
 ## Salesforce Operations
 
-Now that you have connected to Salesforce, use the information in the following topics to perform various operations with the connector.
+Now that you have connected to Salesforce, use the information in the following topics to perform various operations with the connector. The following operations will be performed using the Salesforce SOAP API.
 
 [Working with sObjects](sobjects.md)
 
@@ -88,5 +90,5 @@ To log out of Salesforce and close the current connection, use salesforce.logout
 
 **logout**
 ```xml
-<salesforce.logout/>
+<salesforce.logout-soap/>
 ```

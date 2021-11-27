@@ -30,15 +30,15 @@ This section provides further details on the operations related to records.
 
 #### Creating records
 
-To create one or more record, use salesforce.create and specify the following properties. 
+To create one or more record, use salesforce.create-soap and specify the following properties. 
 
 ###### create
 ```xml
-<salesforce.create configKey="MySFConfig">
+<salesforce.create-soap configKey="MySFConfig">
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.create>
+</salesforce.create-soap>
 ```
 ###### Properties
 * allOrNone: Whether to rollback changes if an object fails (see Common Parameters).
@@ -64,11 +64,11 @@ Given below is a sample request that can be handled by the create operation.
     <args/>
 </payloadFactory>
  
-<salesforce.create>
+<salesforce.create-soap>
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.create>
+</salesforce.create-soap>
 ```
 
 ###### Sample response
@@ -104,15 +104,15 @@ Given below is a sample response for the create operation.
 
 #### Updating records
 
-To update one or more existing records, use salesforce.update and specify the following properties. 
+To update one or more existing records, use salesforce.update-soap and specify the following properties. 
 
 ###### update
 ```xml
-<salesforce.update configKey="MySFConfig">
+<salesforce.update-soap configKey="MySFConfig">
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.update>
+</salesforce.update-soap>
 ```
 
 ###### Properties
@@ -141,11 +141,11 @@ Given below is a sample request that can be handled by the update operation.
     <args/>
 </payloadFactory>
  
-<salesforce.update>
+<salesforce.update-soap>
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.update>
+</salesforce.update-soap>
 ```
 ###### Sample response
 
@@ -179,16 +179,16 @@ Given below is a sample response for the update operation.
 
 #### Updating and inserting records
 
-To update existing records and insert new records in a single operation, use salesforce.upsert and specify the following properties. 
+To update existing records and insert new records in a single operation, use salesforce.upsert-soap and specify the following properties. 
 
 ###### upsert
 ```xml
-<salesforce.upsert configKey="MySFConfig">
+<salesforce.upsert-soap configKey="MySFConfig">
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <externalId>Id</externalId>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.upsert>
+</salesforce.upsert-soap>
 ```
 
 ###### Properties
@@ -217,12 +217,12 @@ If you need to give any existing externalId field of sObject to externalId then 
     <args/>
 </payloadFactory>
  
-<salesforce.upsert>
+<salesforce.upsert-soap>
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <externalId>sample__c</externalId>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.upsert>
+</salesforce.upsert-soap>
 ```
 
 ###### Sample request
@@ -245,12 +245,12 @@ Given below is a sample request that can be handled by the upsert operation.
     <args/>
 </payloadFactory>
  
-<salesforce.upsert>
+<salesforce.upsert-soap>
     <allOrNone>0</allOrNone>
     <allowFieldTruncate>0</allowFieldTruncate>
     <externalId>Id</externalId>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.upsert>
+</salesforce.upsert-soap>
 ```
 
 ###### Sample response
@@ -291,13 +291,13 @@ Given below is a sample response for the upsert operation.
 
 #### Searching records
 
-To search for records, use salesforce.search and specify the search string. If you already know the record IDs, use retrieve instead. 
+To search for records, use salesforce.search-soap and specify the search string. If you already know the record IDs, use retrieve instead. 
 
 ###### search
 ```xml
-<salesforce.search configKey="MySFConfig">
+<salesforce.search-soap configKey="MySFConfig">
     <searchString>FIND {map*} IN ALL FIELDS RETURNING Account (Id, Name), Contact, Opportunity, Lead</searchString>
-</salesforce.search>
+</salesforce.search-soap>
 ```
 ###### Properties
 * searchString: The SQL query to use to search for records.
@@ -341,19 +341,19 @@ Given below is a sample response for the search operation.
 
 #### Querying records
 
-To retrieve data from an object, use salesforce.query and specify the following properties. If you already know the record IDs, you can use retrieve instead. 
+To retrieve data from an object, use salesforce.query-soap and specify the following properties. If you already know the record IDs, you can use retrieve instead. 
 
 ---
 **Note :**
-If you want your search results to include deleted records that are available in the Recycle Bin, use salesforce.queryAll in place of salesforce.query.
+If you want your search results to include deleted records that are available in the Recycle Bin, use salesforce.query-soapAll in place of salesforce.query-soap.
 ---
 
 ###### query
 ```xml
-<salesforce.query configKey="MySFConfig">
+<salesforce.query-soap configKey="MySFConfig">
     <batchSize>200</batchSize>
     <queryString>select id,name from Account</queryString>
-</salesforce.query>
+</salesforce.query-soap>
 ```
 
 ###### Properties
@@ -365,17 +365,17 @@ If you want your search results to include deleted records that are available in
 Following is a sample configuration to query records. It also illustrates the use of queryMore operation to get additional results:
 
 ```xml
-<salesforce.query>
+<salesforce.query-soap>
     <batchSize>200</batchSize>
     <queryString>select id,name from Account</queryString>
-</salesforce.query>
+</salesforce.query-soap>
 <!-- Execute the following to get the other batches -->
 <iterate xmlns:sfdc="http://wso2.org/salesforce/adaptor" continueParent="true" expression="//sfdc:iterator">
     <target>
         <sequence>
-            <salesforce.queryMore>
+            <salesforce.queryMore-soap>
                 <batchSize>200</batchSize>
-            </salesforce.queryMore>
+            </salesforce.queryMore-soap>
         </sequence>
     </target>
 </iterate>
@@ -422,15 +422,15 @@ Given below is a sample response for the query operation.
 
 #### Retrieving specific records
 
-If you know the IDs of the records you want to retrieve, use salesforce.retrieve and specify the following properties. If you do not know the record IDs, use query instead.
+If you know the IDs of the records you want to retrieve, use salesforce.retrieve-soap and specify the following properties. If you do not know the record IDs, use query instead.
 
 ###### retrieve
 ```xml
-<salesforce.retrieve configKey="MySFConfig">
+<salesforce.retrieve-soap configKey="MySFConfig">
     <fieldList>id,name</fieldList>
     <objectType>Account</objectType>
     <objectIDS xmlns:sfdc="sfdc">{//sfdc:sObjects}</objectIDS>
-</salesforce.retrieve>
+</salesforce.retrieve-soap>
 ```
 
 ###### Properties
@@ -453,11 +453,11 @@ Given below is a sample request that can be handled by the retrieve operation.
    <args/>
 </payloadFactory>
  
-<salesforce.retrieve configKey="MySFConfig">
+<salesforce.retrieve-soap configKey="MySFConfig">
     <fieldList>id,name</fieldList>
     <objectType>Account</objectType>
     <objectIDS xmlns:sfdc="sfdc">{//sfdc:sObjects}</objectIDS>
-</salesforce.retrieve>
+</salesforce.retrieve-soap>
 ```
 
 ###### Sample response
@@ -495,14 +495,14 @@ Given below is a sample response for the retrieve operation.
 
 #### Deleting records
 
-To delete one or more records, use salesforce.delete and specify the following properties. 
+To delete one or more records, use salesforce.delete-soap and specify the following properties. 
 
 ###### delete
 ```xml
-<salesforce.delete configKey="MySFConfig">
+<salesforce.delete-soap configKey="MySFConfig">
    <allOrNone>0</allOrNone>
    <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.delete>
+</salesforce.delete-soap>
 ```
 
 ###### Properties
@@ -524,10 +524,10 @@ Given below is a sample request that can be handled by the delete operation.
    <args/>
 </payloadFactory>
  
-<salesforce.delete>
+<salesforce.delete-soap>
    <allOrNone>0</allOrNone>
    <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.delete>
+</salesforce.delete-soap>
 ```
 ###### Sample response
 
@@ -562,14 +562,14 @@ Given below is a sample response for the delete operation.
 
 #### Restoring records
 
-To restore records that were previously deleted, use salesforce.undelete and specify the following properties. 
+To restore records that were previously deleted, use salesforce.undelete-soap and specify the following properties. 
 
 ###### undelete
 ```xml
-<salesforce.undelete configKey="MySFConfig">
+<salesforce.undelete-soap configKey="MySFConfig">
     <allOrNone>0</allOrNone>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.undelete>
+</salesforce.undelete-soap>
 ```
 
 ###### Properties
@@ -591,10 +591,10 @@ Given below is a sample request that can be handled by the undelete operation.
     <args/>
 </payloadFactory>
  
-<salesforce.undelete>
+<salesforce.undelete-soap>
     <allOrNone>0</allOrNone>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.undelete>
+</salesforce.undelete-soap>
 ```
 ###### Sample response
 
@@ -628,11 +628,11 @@ Given below is a sample response for the undelete operation.
 
 #### Retrieving Deleted records
 
-To retrieve the list of records that were previously deleted, use salesforce.getDeleted and specify the following properties. 
+To retrieve the list of records that were previously deleted, use salesforce.getDeleted-soap and specify the following properties. 
 
 ###### getDeleted
 ```xml
-<salesforce.getDeleted configKey="MySFConfig">
+<salesforce.getDeleted-soap configKey="MySFConfig">
     <sObjectType>{$ctx:sObjectType}</sObjectType>
     <startDate>{$ctx:startDate}</startDate>
     <endDate>{$ctx:endDate}</endDate>
@@ -699,15 +699,15 @@ Given below is a sample response for the getDeleted operation.
 
 #### Retrieving Updated records
 
-To retrieve the list of records that were previously updated, use salesforce.getUpdated and specify the following properties. 
+To retrieve the list of records that were previously updated, use salesforce.getUpdated-soap and specify the following properties. 
 
 ###### getUpdated
 ```xml
-<salesforce.getUpdated configKey="MySFConfig">
+<salesforce.getUpdated-soap configKey="MySFConfig">
     <sObjectType>{$ctx:sObjectType}</sObjectType>
     <startDate>{$ctx:startDate}</startDate>
     <endDate>{$ctx:endDate}</endDate>
-</salesforce.getUpdated>
+</salesforce.getUpdated-soap>
 ```
 
 ###### Properties
@@ -771,13 +771,13 @@ Given below is a sample response for the getUpdated operation.
 
 #### Retrieving Duplicate records
 
-To retrieve the list of records that are duplicate entries, use salesforce.findDuplicates and specify the following properties. 
+To retrieve the list of records that are duplicate entries, use salesforce.findDuplicates-soap and specify the following properties. 
 
 ###### findDuplicates
 ```xml
-<salesforce.findDuplicates configKey="MySFConfig">
+<salesforce.findDuplicates-soap configKey="MySFConfig">
     <sobjects xmlns:ns="wso2.connector.salesforce">{//ns:sObjects}</sobjects>
-</salesforce.findDuplicates>
+</salesforce.findDuplicates-soap>
 ```
 
 ###### Properties
@@ -851,13 +851,13 @@ Given below is a sample response for the findDuplicates operation.
 
 #### Retrieving Duplicate records by IDs
 
-To retrieve the list of records that are duplicate entries by using ids, use salesforce.findDuplicatesByIds and specify the following properties. 
+To retrieve the list of records that are duplicate entries by using ids, use salesforce.findDuplicatesByIds-soap and specify the following properties. 
 
 ###### findDuplicatesByIds
 ```xml
-<salesforce.findDuplicatesByIds configKey="MySFConfig">
+<salesforce.findDuplicatesByIds-soap configKey="MySFConfig">
     <ids xmlns:ns="wso2.connector.salesforce">{//ns:ids}</ids>
-</salesforce.findDuplicatesByIds>
+</salesforce.findDuplicatesByIds-soap>
 ```
 
 ###### Properties
@@ -928,13 +928,13 @@ Given below is a sample response for the findDuplicates operation.
 
 #### Merge Records
 
-To merge records into one master record, use salesforce.merge and specify the following properties. 
+To merge records into one master record, use salesforce.merge-soap and specify the following properties. 
 
 ###### merge
 ```xml
-<salesforce.merge configKey="MySFConfig">
+<salesforce.merge-soap configKey="MySFConfig">
     <mergerequests xmlns:ns="wso2.connector.salesforce">{//ns:requests}</mergerequests>
-</salesforce.merge>
+</salesforce.merge-soap>
 ```
 
 ###### Properties
@@ -999,13 +999,13 @@ Given below is a sample response for the findDuplicates operation.
 
 #### Convert Lead
 
-To convert a lead into an account, use salesforce.convertLead and specify the following properties. 
+To convert a lead into an account, use salesforce.ConvertLead-soap and specify the following properties. 
 
 ###### convertLead
 ```xml
-<salesforce.convertLead configKey="MySFConfig">
+<salesforce.ConvertLead-soap configKey="MySFConfig">
      <leadconvertrequests xmlns:ns="wso2.connector.salesforce">{//ns:leadconvertrequests}</leadconvertrequests>
-</salesforce.convertLead>
+</salesforce.ConvertLead-soap>
 ```
 
 ###### Properties
@@ -1107,11 +1107,12 @@ Following example illustrates how to connect to Salesforce with the init operati
             <username>{$ctx:username}</username>
             <password>{$ctx:password}</password>
             <blocking>{$ctx:blocking}</blocking>
+            <connectionType>basicAuth</connectionType>
          </salesforce.init>
-         <salesforce.query>
+         <salesforce.query-soap>
             <batchSize>{$ctx:batchSize}</batchSize>
             <queryString>{$ctx:queryString}</queryString>
-         </salesforce.query>
+         </salesforce.query-soap>
          <respond/>
       </inSequence>
       <outSequence>

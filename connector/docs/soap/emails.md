@@ -17,13 +17,13 @@ This section provides further details on the operations related to Emails.
 
 #### Creating and sending an email
 
-To create and send an email, use salesforce.sendEmail and specify the following properties. 
+To create and send an email, use salesforce.sendEmail-soap and specify the following properties. 
 
-###### sendEmail
+###### sendEmail-soap
 ```xml
-<salesforce.sendEmail>
+<salesforce.sendEmail-soap>
     <sendEmail xmlns:sfdc="sfdc">{//sfdc:emailWrapper}</sendEmail>
-</salesforce.sendEmail>
+</salesforce.sendEmail-soap>
 ```
 ###### Properties
 * sendEmail: XML representation of the email.
@@ -52,9 +52,9 @@ Given below is a sample request that can be handled by the sendEmail operation.
     <args/>
 </payloadFactory>
           
-<salesforce.sendEmail>
+<salesforce.sendEmail-soap>
     <sendEmail xmlns:sfdc="sfdc">{//sfdc:emailWrapper}</sendEmail>
-</salesforce.sendEmail>
+</salesforce.sendEmail-soap>
 ```
 ###### Sample response
 
@@ -88,13 +88,13 @@ Given below is a sample response for the sendEmail operation.
 
 #### Sending existing email drafts
 
-To send emails that have already been drafted, use salesforce.sendEmailMessage and specify the IDs of the emails you want to send. 
+To send emails that have already been drafted, use salesforce.sendEmailMessage-soap and specify the IDs of the emails you want to send. 
 
-###### sendEmailMessage
+###### sendEmailMessage-soap
 ```xml
-<salesforce.sendEmailMessage config-ref="connectorConfig">
+<salesforce.sendEmailMessage-soap config-ref="connectorConfig">
     <sendEmailMessage xmlns:sfdc="sfdc">{//sfdc:emails}</sendEmailMessage>
-</salesforce.sendEmailMessage>
+</salesforce.sendEmailMessage-soap>
 ```
 
 ###### Properties
@@ -115,9 +115,9 @@ Given below is a sample request that can be handled by the sendEmailMessage oper
     <args/>
 </payloadFactory>
  
-<salesforce.sendEmailMessage config-ref="connectorConfig">
+<salesforce.sendEmailMessage-soap config-ref="connectorConfig">
     <sendEmailMessage xmlns:sfdc="sfdc">{//sfdc:emails}</sendEmailMessage>
-</salesforce.sendEmailMessage>
+</salesforce.sendEmailMessage-soap>
 ```
 
 ###### Related Salesforce documentation
@@ -213,9 +213,9 @@ Following example illustrates how to connect to Salesforce with the init operati
                <arg evaluator="xml" expression="$ctx:plainTextBody"/>
             </args>
          </payloadFactory>
-         <salesforce.sendEmail>
+         <salesforce.sendEmail-soap>
             <sendEmail xmlns:sfdc="sfdc">{//sfdc:emailWrapper}</sendEmail>
-         </salesforce.sendEmail>
+         </salesforce.sendEmail-soap>
          <respond/>
       </inSequence>
       <outSequence>

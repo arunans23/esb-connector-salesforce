@@ -17,13 +17,13 @@ This section provides more information on each of the operations.
 
 #### Retrieving the user information
 
-To retrieve information about the user who is currently logged in, use salesforce.getUserInfo. The information provided includes the name, ID, and contact information of the user. See, the [Salesforce documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_getuserinfo_getuserinforesult.htm) for details of the information that is returned using this operation.
+To retrieve information about the user who is currently logged in, use salesforce.getUserInfo-soap. The information provided includes the name, ID, and contact information of the user. See, the [Salesforce documentation](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_calls_getuserinfo_getuserinforesult.htm) for details of the information that is returned using this operation.
 
 If you want to get additional information about the user that is not returned by this operation, use retrieve operation on the User object providing the ID returned from getUserInfo.
 
 ###### getUserInfo
 ```xml
-<salesforce.getUserInfo configKey="MySFConfig"/>
+<salesforce.getUserInfo-soap configKey="MySFConfig"/>
 ```
 
 ###### Sample response
@@ -79,14 +79,14 @@ Given below is a sample response for the getUserInfo operation.
 
 #### Changing user password
 
-To change the user password by specifying the password, use salesforce.setPassword as follows:
+To change the user password by specifying the password, use salesforce.setPassword-soap as follows:
 
 ###### setPassword
 ```xml
-<salesforce.setPassword configKey="MySFConfig">
+<salesforce.setPassword-soap configKey="MySFConfig">
     <userId>0056F000009wCJgQAM</userId>
     <password>abc123</password>
-</salesforce.setPassword>
+</salesforce.setPassword-soap>
 ```
 ###### Properties
 * userId: The user's Salesforce ID.
@@ -190,8 +190,9 @@ Following example illustrates how to connect to Salesforce with the init operati
             <username>{$ctx:username}</username>
             <password>{$ctx:password}</password>
             <blocking>{$ctx:blocking}</blocking>
+            <connectionType>basicAuth</connectionType>
          </salesforce.init>
-         <salesforce.getUserInfo/>
+         <salesforce.getUserInfo-soap/>
          <respond/>
       </inSequence>
       <outSequence>

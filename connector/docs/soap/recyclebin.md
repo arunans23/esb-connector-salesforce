@@ -8,10 +8,10 @@ The Recycle Bin allows you to view and restore recently deleted records for a ma
 
 ###### emptyRecycleBin
 ```xml
-<salesforce.emptyRecycleBin config-ref="connectorConfig">
+<salesforce.emptyRecycleBin-soap config-ref="connectorConfig">
     <allOrNone>0</allOrNone>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.emptyRecycleBin>
+</salesforce.emptyRecycleBin-soap>
 ```
 ###### Properties
 * allOrNone: Whether to rollback changes if an object fails (see Common Parameters).
@@ -19,7 +19,7 @@ The Recycle Bin allows you to view and restore recently deleted records for a ma
 
 ###### Sample request
 
-Given below is a sample request that can be handled by the emptyRecycleBin operation.
+Given below is a sample request that can be handled by the emptyRecycleBin-soap operation.
 
 ```xml
 <payloadFactory>
@@ -32,10 +32,10 @@ Given below is a sample request that can be handled by the emptyRecycleBin opera
    <args/>
 </payloadFactory>
  
-<salesforce.emptyRecycleBin>
+<salesforce.emptyRecycleBin-soap>
     <allOrNone>0</allOrNone>
     <sobjects xmlns:sfdc="sfdc">{//sfdc:sObjects}</sobjects>
-</salesforce.emptyRecycleBin>
+</salesforce.emptyRecycleBin-soap>
 ```
 
 ###### Sample response
@@ -108,6 +108,7 @@ Following example illustrates how to connect to Salesforce with the init operati
             <username>{$ctx:username}</username>
             <password>{$ctx:password}</password>
             <blocking>{$ctx:blocking}</blocking>
+            <connectionType>basicAuth</connectionType>
          </salesforce.init>
          <payloadFactory media-type="xml">
             <format>
