@@ -184,6 +184,7 @@ Following example illustrates how to connect to Salesforce with the init operati
             <username>{$ctx:username}</username>
             <password>{$ctx:password}</password>
             <blocking>{$ctx:blocking}</blocking>
+            <connectionType>basicAuth</connectionType>
          </salesforce.init>
          <payloadFactory media-type="xml">
             <format>
